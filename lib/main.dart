@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,9 +14,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: _router,
       title: "Go router",
+      theme: _appTheme,
     );
   }
 }
+
+final _appTheme = ThemeData(
+  primarySwatch: Colors.amber,
+  textTheme: const TextTheme(
+    displayLarge: TextStyle(
+      fontWeight: FontWeight.w900,
+      fontSize: 34,
+      color: Colors.black,
+    ),
+  ),
+);
 
 final GoRouter _router = GoRouter(
   routes: [
@@ -42,25 +55,27 @@ class _FirstPageState extends State<FirstPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('xxx'),
+        title: const Text(
+          'First Page',
+        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'This is First Page:',
+              style: TextStyle(
+                fontSize: 50.00,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            Text(
-              'xxx',
-              style: Theme.of(context).textTheme.headlineMedium,
+            ElevatedButton(
+              onPressed: () => context.go("/secondpage"),
+              child: const Text("Go to Second page"),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go("/secondpage"),
-        child: const Text("Go to Second page"),
       ),
     );
   }
@@ -71,10 +86,33 @@ class SecondPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        onPressed: () => context.go("/"),
-        child: const Text("Go to First page"),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Second Page',
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'This is Second Page:',
+              style: TextStyle(
+                fontSize: 50.00,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(20.00),
+              width: 150.00,
+              child: ElevatedButton(
+                onPressed: () => context.go("/"),
+                child: const Text("Go to First page"),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
