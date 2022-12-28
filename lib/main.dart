@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +9,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _router,
-      title: "Go router",
+    return MaterialApp(
+      title: "Home Text Demo",
       theme: _appTheme,
+      debugShowCheckedModeBanner: false,
+      home: const Home(),
     );
   }
 }
@@ -30,88 +29,62 @@ final _appTheme = ThemeData(
   ),
 );
 
-final GoRouter _router = GoRouter(
-  routes: [
-    GoRoute(
-      path: "/",
-      builder: (context, state) => const FirstPage(),
-    ),
-    GoRoute(
-      path: "/secondpage",
-      builder: (context, state) => const SecondPage(),
-    )
-  ],
-);
+class Home extends StatefulWidget {
+  final double height;
+  final double width;
 
-class FirstPage extends StatefulWidget {
-  const FirstPage({super.key});
+  const Home({Key? key, this.height = 200, this.width = 200}) : super(key: key);
 
   @override
-  State<FirstPage> createState() => _FirstPageState();
+  createState() => HomeState();
 }
 
-class _FirstPageState extends State<FirstPage> {
+class HomeState extends State<Home> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  late Animation gradientPosition;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'First Page',
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'This is First Page:',
-              style: TextStyle(
-                fontSize: 50.00,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () => context.go("/secondpage"),
-              child: const Text("Go to Second page"),
-            ),
-          ],
-        ),
-      ),
-    );
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 1500), vsync: this);
+
+    gradientPosition = Tween<double>(
+      begin: -3,
+      end: 10,
+    ).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.linear),
+    )..addListener(() {
+        setState(() {});
+      });
+
+    _controller.repeat();
   }
-}
 
-class SecondPage extends StatelessWidget {
-  const SecondPage({super.key});
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Second Page',
-        ),
-      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'This is Second Page:',
-              style: TextStyle(
-                fontSize: 50.00,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(20.00),
-              width: 150.00,
-              child: ElevatedButton(
-                onPressed: () => context.go("/"),
-                child: const Text("Go to First page"),
-              ),
-            )
-          ],
+        child: Container(
+          width: widget.width,
+          height: widget.height,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment(gradientPosition.value, 0),
+                  // ignore: prefer_const_constructors
+                  end: Alignment(-1, 0),
+                  colors: const [
+                Colors.black12,
+                Colors.black26,
+                Colors.black12
+              ])),
         ),
       ),
     );
