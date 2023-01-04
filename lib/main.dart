@@ -9,12 +9,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Lazy Load Demonstration',
-      home: MyHomePage(title: 'Lazy Load Demonstration'),
+      theme: _appTheme,
+      home: const MyHomePage(title: 'Lazy Load Demonstration'),
     );
   }
 }
+
+final _appTheme = ThemeData(
+  primarySwatch: Colors.amber,
+  textTheme: const TextTheme(
+    displayLarge: TextStyle(
+      fontWeight: FontWeight.w900,
+      fontSize: 40,
+      color: Colors.black,
+    ),
+  ),
+);
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
