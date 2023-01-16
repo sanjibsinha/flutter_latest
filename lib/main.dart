@@ -1,121 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
-
-void main() {
-  runApp(const MyApp());
+class AClass {
+  static void aStaticMethod() {} // A static method
+  void anInstanceMethod() {} // An instance method
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+main() {
+  /// we can declare any function inside any top-level function
+  Function anyFunctionInsideTopLevelFunction;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _router,
-      title: "Go router",
-      theme: _appTheme,
-    );
+  // Comparing static methods.
+  anyFunctionInsideTopLevelFunction = AClass.aStaticMethod;
+  if (AClass.aStaticMethod == anyFunctionInsideTopLevelFunction) {
+    print('Any function inside a top level function '
+        ' is as same as a static method.');
   }
 }
 
-final _appTheme = ThemeData(
-  primarySwatch: Colors.amber,
-  textTheme: const TextTheme(
-    displayLarge: TextStyle(
-      fontWeight: FontWeight.w900,
-      fontSize: 34,
-      color: Colors.black,
-    ),
-  ),
-);
-
-final GoRouter _router = GoRouter(
-  routes: [
-    GoRoute(
-      path: "/",
-      builder: (context, state) => const FirstPage(),
-    ),
-    GoRoute(
-      path: "/secondpage",
-      builder: (context, state) => const SecondPage(),
-    )
-  ],
-);
-
-class FirstPage extends StatefulWidget {
-  const FirstPage({super.key});
-
-  @override
-  State<FirstPage> createState() => _FirstPageState();
-}
-
-class _FirstPageState extends State<FirstPage> {
-  @override
-  Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.bottom]);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'First Page',
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'This is First Page:',
-              style: TextStyle(
-                fontSize: 50.00,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () => context.go("/secondpage"),
-              child: const Text("Go to Second page"),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SecondPage extends StatelessWidget {
-  const SecondPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Second Page',
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'This is Second Page:',
-              style: TextStyle(
-                fontSize: 50.00,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(20.00),
-              width: 150.00,
-              child: ElevatedButton(
-                onPressed: () => context.go("/"),
-                child: const Text("Go to First page"),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+// flutter: Any function inside a top level function  is as same as a static method.
