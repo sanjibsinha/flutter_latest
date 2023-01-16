@@ -1,4 +1,8 @@
-class AClass {
+/**
+ * 
+ *  First example
+ * 
+ * class AClass {
   static void aStaticMethod() {} // A static method
   void anInstanceMethod() {} // An instance method
 }
@@ -16,3 +20,9 @@ main() {
 }
 
 // flutter: Any function inside a top level function  is as same as a static method.
+
+
+ * 
+ * 
+ */
+
