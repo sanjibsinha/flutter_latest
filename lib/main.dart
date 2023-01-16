@@ -1,39 +1,19 @@
-import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MyApp());
+class AClass {
+  static void aStaticMethod() {} // A static method
+  void anInstanceMethod() {} // An instance method
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyHomePage(),
-    );
+main() {
+  /// we can declare any function inside any top-level function
+  Function anyFunctionInsideTopLevelFunction;
+
+  // Comparing static methods.
+  anyFunctionInsideTopLevelFunction = AClass.aStaticMethod;
+  if (AClass.aStaticMethod == anyFunctionInsideTopLevelFunction) {
+    print('Any function inside a top level function '
+        ' is as same as a static method.');
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dart and Flutter Class'),
-      ),
-      body: Container(
-        margin: const EdgeInsets.all(30.0),
-        padding: const EdgeInsets.all(30.0),
-        child: const Text(
-          'Dart and Flutter Demonstration',
-          style: TextStyle(
-            fontSize: 30.0,
-            color: Colors.black45,
-          ),
-        ),
-      ),
-    );
-  }
-}
+// flutter: Any function inside a top level function  is as same as a static method.
+
